@@ -1,0 +1,10 @@
+total 0
+-rw-r--r-- 1 nicojaws nicojaws 0 Sep  4 08:56 output.txt
+-rw-r--r-- 1 nicojaws nicojaws 0 Sep  4 08:55 test01.txt
+-rw-r--r-- 1 nicojaws nicojaws 0 Sep  4 08:55 test02.txt
+total 12
+drwxr-xr-x 2 nicojaws nicojaws 4096 Sep  4 08:56 .
+drwxr-xr-x 6 nicojaws nicojaws 4096 Aug 26 11:59 ..
+-rw-r--r-- 1 nicojaws nicojaws  179 Sep  4 08:56 output.txt
+-rw-r--r-- 1 nicojaws nicojaws    0 Sep  4 08:55 test01.txt
+-rw-r--r-- 1 nicojaws nicojaws    0 Sep  4 08:55 test02.txt

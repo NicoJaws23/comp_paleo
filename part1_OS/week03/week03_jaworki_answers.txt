@@ -1,0 +1,264 @@
+Name: Nico Jaworski
+Date: 9/8/2026
+Dataset: Origins OTB Fossil Database (otb_fossils.tsv)
+
+Column reference:
+
+     1  catalog_number
+     2  organism_id
+     3  preparations
+     4  year
+     5  discovered_by
+     6  continent
+     7  country
+     8  state_province
+     9  region
+    10  subregion
+    11  place
+    12  locality
+    13  earliest_period_or_lowest_system
+    14  latest_period_or_highest_system
+    15  earliest_epoch_or_lowest_series
+    16  latest_epoch_or_highest_series
+    17  earliest_age_or_lowest_stage
+    18  latest_age_or_highest_stage
+    19  formation
+    20  member
+    21  bed
+    22  scientific_name
+    23  identification_qualifier
+    24  date_identified
+    25  verbatim_identification
+    26  verbatim_chronometric_age
+    27  earliest_chronometric_age
+    28  earliest_chronometric_age_reference_system
+    29  latest_chronometric_age
+    30  latest_chronometric_age_reference_system
+
+Part 0.2
+Command: ls -lh otb_fossils.tsv
+Answer: The file is 351 kilobytes
+
+Command: wc -l otb_fossils.tsv
+Answer: The file had 1243 lines in it
+
+Part 0.3
+Command:head -1 otb_fossils.tsv | tr '\t' '\n' | cat -n
+Answer: catalog_number is column 1, scientific_name is column 22, identification_qualifier is column 23, preparations is column 3, country is column 7, subregion is column 10, place is column 11, formation is column 19, earliest_epoch_or_lowest_series is column 15, earliest_chromometric_age is column 27, and latest_chronometric_age is column 29
+
+Part 1.1
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ wc -l otb_fossils.tsv > dataset_info.txt
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ echo "Downloaded and inspected: $(date)" >> dataset_info.txt
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ cat dataset_info.txt
+
+Answer: Output of cat command line was 1243 otb_fossils.tsv
+Downloaded and inspected: Sun Sep  6 16:35:24 CDT 2026
+
+Part 1.2
+Command and output:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ wc -l otb_fossils.tsv
+1243 otb_fossils.tsv
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ wc -l < otb_fossils.tsv
+1243
+
+Part 1.3
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ head -100 otb_fossils.tsv > /dev/null
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ echo "Exit code: $?"
+
+Answer: Exit code: 0, discarding output is useful in a research workflow because in some cases the output of a command may flood the terminal, making it overwhelming. Discarding the output simplifies it down to a more informative output.
+
+Part 2.1
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 7 | sort | uniq -c | sort -rn
+    952 Kenya
+    291 Ethiopia
+Answer 1: There are 952 speciments from Kenya and 291 from Ethiopia. I find it surprising that Kenya has more speciments given that a majority of the Kenya side is taken up by Lake Turkana.
+Answer 2: If the file were comma delimitted, then we would need to call the -d flag and specify the comma like this: cut -d ',' -f 7
+
+Part 2.2
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 19 | sort | uniq -c | sort -rn
+    591 Koobi Fora
+    258 Shungura
+    188 Kanapoi
+    182 Nachukui
+     22 Usno
+      2 Nawata
+Answer: Koobi Fora has the most specimens, this may be because established paleoanthropologists Richard Leakey began focusing there in 1968 and established his basecamp there
+
+Part 2.3
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 10
+| sort | uniq -c | sort -rn
+    591 East Turkana
+    372 West Turkana
+    280 North Turkana
+Answer: East Turkana has the most specimens, this matches with the formation results as the East Turkana subregion is within the Koobi Fora formation
+
+Part 2.4
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 3 |
+ sort | uniq -c | sort -rn
+    688 Tooth
+    260 Postcranium
+    176 Cranium
+    119 Mandible
+Answer: Teeth are the most commonly preserved anatomical elements. Teeth contain a high mineral content compared to other bones with more organic elements, so they are able to preserve much better than other bones.
+
+Part 2.5
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 15
+| sort | uniq -c | sort -rn
+    730 Pleistocene
+    336 Pliocene
+    175
+      2 Miocene
+Answer: The most specimens come from the Pleistocene. I think a sampling bias play a role in this as the Plistocene was the most recent epoch, happening just before the current epoch, the Holocene. Fossils from the Pleistocene have thus not been in the ground as long as fossils from the Pliocene and Miocene. Potential speciments from the Pliocene and Miocene may have been destroyed over longer geological time them. 
+
+Part 2.6
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ cut -f 1,19,22 otb_fossils.tsv > specim
+ens_summary.tsv
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ head -10 specimens_summary.tsv
+
+Answer: 
+catalog_number  formation       scientific_name
+B 7-39a Usno    "Australopithecus Dart, 1925"
+B 7-39b Usno    "Australopithecus Dart, 1925"
+B 7-39c Usno    "Australopithecus Dart, 1925"
+B 8-14a Usno    "Australopithecus Dart, 1925"
+B 8-14b Usno    "Australopithecus Dart, 1925"
+B 8-20p Usno    Hominini
+B 8-23a Usno    "Australopithecus Dart, 1925"
+B 8-23b Usno    "Australopithecus Dart, 1925"
+B 8-27  Usno    Hominini
+
+Part 3.1
+Command: nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ grep "Homo" otb_fossils.tsv | wc -l
+Answer: 379 rows contain the word "Homo"
+
+Part 3.2
+Command: nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 22 | grep "Homo" | sort | uniq -c | sort -rn
+    154 "Homo erectus (Dubois, 1892)"
+    100 "Homo habilis Leakey, Tobias & Napier, 1964"
+     91 "Homo Linnaeus, 1758"
+Answer: There are three distinct Homo scientific names, Homo erectus, Homo habilis, and just Homo
+
+Part 3.3
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ grep -i "koobi" otb_fossils.tsv  |wc -l
+591
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ grep -c "Koobi" otb_fossils.tsv
+591
+Answer: For me, both commands returned the same count. Since -i ignores case, and -c gives a count of what is specified, then my guess is that all the records for Koobi Fora have the correct case for Koobi
+
+Part 3.4
+Command: 
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 1 | grep "^KNM-" |wc -l
+952
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 1 | grep "^KNM-WT" |wc -l
+177
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 1 | grep "^KNM-ER" |wc -l
+580
+Answer: Using the KNM- prefix, there are 177 speciments from West Turkana and 580 from East Turkana. This does not match the frequency table from Part 2.3 which listed 372 specimens from WT and 591 from ER
+
+Part 3.5
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 23 | grep -v "^$" | wc -l
+110
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | cut -f 23 | grep -v "^cf\." | wc -l
+1203
+Answer:91.62% of specimens have qualified identifications. This high propotion of uncertain identifications tells us that a majority of finds are not complete enough to determine the exact species.
+
+Part 3.6
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ grep -i "tooth\|teeth\|molar\|premolar\|incisor\|canine" otb_fossils.tsv | wc -l
+
+Answer: 699 specimens have descriptors which mention these teeth terms. The preparations count had 688 records with "tooth". The description field has more because multiple teeth of the same specimen may be recorded together. For example, if a specimen is labeled as teeth for preparations, it could have both a molar and premolar, giving a value of 2 back for 1 row
+
+Part 3.7
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ grep -n "Nariokotome" otb_fossils.tsv | head -5
+895:KNM-WT 19700        KNM-WT 19700    Postcranium     1988    K. Kimeu        Africa  Kenya    Turkana Omo-Turkana Basin       West Turkana    Nachukui        "Nachukui, Locality NC-1"                                                        Nachukui        Nariokotome              "Homo erectus (Dubois, 1892)"           2001-01-01      H. erectus      0.85-1.15        1.15    Ma      0.85    Ma
+975:KNM-WT 51261        KNM-WT 51261    Tooth   2010    WTPP team       Africa  Kenya   Turkana  Omo-Turkana Basin       West Turkana    Nachukui        "Nachukui, Locality NAD"Nachukui Nariokotome             "Homo Linnaeus, 1758"           2015-01-01      Homo sp.0.75     0.75    Ma      0.75    Ma
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ sed -n '895p' otb_fossils.tsv
+KNM-WT 19700    KNM-WT 19700    Postcranium     1988    K. Kimeu        Africa  Kenya   Turkana  Omo-Turkana Basin       West Turkana    Nachukui        "Nachukui, Locality NC-1"Nachukui        Nariokotome             "Homo erectus (Dubois, 1892)"           2001-01-01       H. erectus      0.85-1.15       1.15    Ma      0.85    Ma
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ sed -n '975p' otb_fossils.tsv
+KNM-WT 51261    KNM-WT 51261    Tooth   2010    WTPP team       Africa  Kenya   Turkana Omo-Turkana Basin        West Turkana    Nachukui        "Nachukui, Locality NAD"        Nachukui Nariokotome             "Homo Linnaeus, 1758"           2015-01-01      Homo sp.0.75     0.75    Ma      0.75    Ma
+
+Answer: The line number of these rows are 895 and 975
+
+Part 4.2
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ sed -n '1p;50,60p' otb_fossils.tsv
+Answer:
+catalog_number  organism_id     preparations    year    discovered_by   continent       country  state_province  region  subregion       place   locality        earliest_period_or_lowest_system latest_period_or_highest_system earliest_epoch_or_lowest_series latest_epoch_or_highest_series   earliest_age_or_lowest_stage    latest_age_or_highest_stage     formation        member  bed     scientific_name identification_qualifier        date_identified  verbatim_identification verbatim_chronometric_age       earliest_chronometric_ageearliest_chronometric_age_reference_system      latest_chronometric_age latest_chronometric_age_reference_system
+KNM-ER 1463     KNM-ER 1463     Postcranium     1972    K. Kimeu        Africa  Kenya   Marsabit Omo-Turkana Basin       East Turkana    Ileret  "Ileret, Area 1A"       Quaternary       Quaternary      Pleistocene     Pleistocene     Calabrian       Calabrian       Koobi Fora       Okote   MFB+1m  Hominini                1994-01-01      Hominine GSI    1.36-1.46        1.46    Ma      1.36    Ma
+KNM-ER 1464     KNM-ER 1464     Postcranium     1972    N. Mutiwa       Africa  Kenya   Marsabit Omo-Turkana Basin       East Turkana    Ileret  "Ileret, Area 6A"       Quaternary       Quaternary      Pleistocene     Pleistocene     Calabrian       Calabrian       Koobi Fora       KBS     LIL - 8m        "Paranthropus boisei (Leakey, 1959)"            1994-01-01       P. boisei       1.54-1.64       1.64    Ma      1.54    Ma
+KNM-ER 1465a    KNM-ER 1465     Postcranium     1972    K. Kimeu        Africa  Kenya   Marsabit Omo-Turkana Basin       East Turkana    Ileret  "Ileret, Area 11"       Quaternary       Quaternary      Pleistocene     Pleistocene     Calabrian       Calabrian       Koobi Fora       Okote   MFB     Hominini                1994-01-01      Hominine GSI    1.48-1.58        1.58    Ma      1.48    Ma
+KNM-ER 1465b    KNM-ER 1465     Postcranium     1972    K. Kimeu        Africa  Kenya   Marsabit Omo-Turkana Basin       East Turkana    Ileret  "Ileret, Area 11"       Quaternary       Quaternary      Pleistocene     Pleistocene     Calabrian       Calabrian       Koobi Fora       Okote   MFB     Hominini                1994-01-01      Hominine GSI    1.48-1.58        1.58    Ma      1.48    Ma
+KNM-ER 1466     KNM-ER 1466     Cranium 1972    B. Ngeneo       Africa  Kenya   MarsabitOmo-Turkana Basin        East Turkana    Ileret  "Ileret, Area 6"        Quaternary      Quaternary       Pleistocene     Pleistocene     Calabrian       Calabrian       Koobi Fora       Okote   LKF + 7m        Hominini        cf. Homo aff. erectus   1991-01-01      cf. H. aff. H. erectus   1.46-1.54       1.54    Ma      1.46    Ma
+KNM-ER 1467     KNM-ER 1467     Tooth   1972    N. Mutiwa       Africa  Kenya   MarsabitOmo-Turkana Basin        East Turkana    Ileret  "Ileret, Area 3"        Quaternary      Quaternary       Pleistocene     Pleistocene     Calabrian       Calabrian       Koobi Fora       Okote   MFB - 4m        "Paranthropus boisei (Leakey, 1959)"            1991-01-01       P. boisei       1.49-1.59       1.59    Ma      1.49    Ma
+KNM-ER 1468     KNM-ER 1468     Mandible        1972    B. Ngeneo       Africa  Kenya   Marsabit Omo-Turkana Basin       East Turkana    Ileret  "Ileret, Area 11"       Quaternary       Quaternary      Pleistocene     Pleistocene     Calabrian       Calabrian       Koobi Fora       Okote   OKL + 2m        "Paranthropus boisei (Leakey, 1959)"            1991-01-01       P. boisei       1.55-1.65       1.65    Ma      1.55    Ma
+KNM-ER 1469     KNM-ER 1469     Mandible        1972    K. Kimeu        Africa  Kenya   Marsabit Omo-Turkana Basin       East Turkana    Koobi Fora      "Koobi Fora, Area 131"  Quaternary       Quaternary      Pleistocene     Pleistocene     Gelasian        GelasianKoobi Fora       Upper Burgi     KBS - 13m       "Paranthropus boisei (Leakey, 1959)"    1991-01-01       P. boisei       1.93-1.96       1.96    Ma      1.93    Ma
+KNM-ER 1470a    KNM-ER 1470     Cranium 1972    B. Ngeneo       Africa  Kenya   MarsabitOmo-Turkana Basin        East Turkana    Koobi Fora      "Koobi Fora, Area 131"  Quaternary       Quaternary      Pleistocene     Pleistocene     Gelasian        Gelasian        Koobi Fora       Upper Burgi     KBS - 41m       "Homo habilis Leakey, Tobias & Napier, 1964"             1991-01-01      H. habilis      1.98-2.08       2.08    Ma      1.98    Ma
+KNM-ER 1470b    KNM-ER 1470     Cranium 1972    B. Ngeneo       Africa  Kenya   MarsabitOmo-Turkana Basin        East Turkana    Koobi Fora      "Koobi Fora, Area 131"  Quaternary       Quaternary      Pleistocene     Pleistocene     Gelasian        Gelasian        Koobi Fora       Upper Burgi     KBS - 41m       "Homo habilis Leakey, Tobias & Napier, 1964"             1991-01-01      H. habilis      1.98-2.08       2.08    Ma      1.98    Ma
+KNM-ER 1470c    KNM-ER 1470     Cranium 1972    B. Ngeneo       Africa  Kenya   MarsabitOmo-Turkana Basin        East Turkana    Koobi Fora      "Koobi Fora, Area 131"  Quaternary       Quaternary      Pleistocene     Pleistocene     Gelasian        Gelasian        Koobi Fora       Upper Burgi     KBS - 41m       "Homo habilis Leakey, Tobias & Napier, 1964"             1991-01-01      H. habilis      1.98-2.08       2.08    Ma      1.98    Ma
+
+Part 4.3
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | awk -F '\t' '{print $1 "\t" $19}' | head -15
+Answer:
+B 7-39a Usno
+B 7-39b Usno
+B 7-39c Usno
+B 8-14a Usno
+B 8-14b Usno
+B 8-20p Usno
+B 8-23a Usno
+B 8-23b Usno
+B 8-27  Usno
+B 8-28m Usno
+B 8-4q  Usno
+F 18-3  Shungura
+F 203-1 Shungura
+F 22-1a Shungura
+F 22-1b Shungura
+
+
+Part 4.4
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | awk -F '\t' '$19 == "Koobi Fora"' | wc -l
+591
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | awk -F '\t' '$23 != ""' |wc -l
+110
+Answer: For me, the second command matches the count from the result of Part 3.5, as both are looking for speciments with non-emply identifiers.
+
+Part 4.5
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | awk -F '\t' '{count[$22]++} END {for (name in count) print count[name], name}' | sort -rn
+
+Answer:
+This piped command line fist uses the tail command to start printing information at line 2 of the file, ignoring the header columns. awk -F '\t' specifies that the columns in the file are tab-delimited. Then {count[$22]++} END goes through the scientific_name column and counts how many each record is present for each scientific name. {for (name in count) print count[name], name}' then established a for loop to display the count of each taxa next to its name. Finally, sort -rn displays the counts in descending order.
+The five taxa in the dataset based on genus and species are Australopithecus anamensis (242), Paranthropus boisei (205), Homo erectus (154), Homo habilis (100), and Paranthropus aethiopicus (66). There are also 2 specimens of Kenyanthropus platyops. 
+335 Hominini
+242 "Australopithecus anamensis Leakey et al., 1995"
+205 "Paranthropus boisei (Leakey, 1959)"
+154 "Homo erectus (Dubois, 1892)"
+100 "Homo habilis Leakey, Tobias & Napier, 1964"
+91 "Homo Linnaeus, 1758"
+66 "Paranthropus aethiopicus (Arambourg & Coppens, 1967)"
+28 "Australopithecus Dart, 1925"
+20 "Paranthropus Broom, 1938"
+2 "Kenyanthropus platyops Leakey et al., 2001"
+
+Part 4.6
+Command:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week03$ tail -n +2 otb_fossils.tsv | awk -F '\t' 'BEGIN {max=0; min=999} $27 != "" {if ($27+0 > max) max=$27+0} $29 != "" {if ($29+0 < min && $29+0 > 0) min=$29+0} END {print "Oldest:", max, "Ma"; print "Youngest:", min, "Ma"}'
+Oldest: 6.5 Ma
+Youngest: 0.75 Ma
+Answer: The overall chronometric span of the OTB hominin record ranges from 6.5 million years to 0.75 million years.
+
+

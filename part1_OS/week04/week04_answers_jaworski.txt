@@ -1,0 +1,194 @@
+Week 4 Assignment -- Shell Scripting & Automation
+Nico Jaworski
+Computational Paleobiology
+9/11/2026
+
+Part 1 -- Your First Scripts
+1.1
+1. The line #!/usr/bin/env bash locates bash on the users system, it is
+preferable to #!/bin/bash because it is more flexible, as the second
+option assumes bash is in that exact file location.
+2. chmod +x changes the permissions of the script to be executable. If I 
+tried to run the script without it, I would get a message saying I dont
+have permission to run the script.
+3. Running ./hello_researcher.sh searches iteratively for the script across
+directories. Running bash hello_researcher.sh searches for the script in
+only the bash directory.
+	
+1.2
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week04$ ./hello_researcher.sh
+Researcher: nicojaws
+Date: 2026-09-11
+Dataset: otb_fossils.tsv
+Row count: 1243
+
+1.3
+1. $0 contains the script name, which is why it is used in the first
+if statement. That way, the error messages are able to print exact 
+examples of how to call and run the script should the user do it wrong
+2. $# contains the number of file paths given to the script. If I give 1
+path name then $# equals 1, but is I give 2 path names at the same time
+$# equals 2 and triggers the first if statement.
+3. exit 1 indicates that the commands in the script were unsuccessful or failed. The 1 is used
+here because in Linux, any exit return ranging from 1-255 indicates the script failed and 
+encountered an error. 0 on the other hand always indicates that the script ran successfully.
+4. Output on otb_fossils.tsv
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week04$ ./dataset_info.sh otb_fossils.tsv
+======================================
+File:    otb_fossils.tsv
+Rows:    1242 (excluding header)
+Columns: 30
+Header fields:
+     1  catalog_number
+     2  organism_id
+     3  preparations
+     4  year
+     5  discovered_by
+     6  continent
+     7  country
+     8  state_province
+     9  region
+    10  subregion
+    11  place
+    12  locality
+    13  earliest_period_or_lowest_system
+    14  latest_period_or_highest_system
+    15  earliest_epoch_or_lowest_series
+    16  latest_epoch_or_highest_series
+    17  earliest_age_or_lowest_stage
+    18  latest_age_or_highest_stage
+    19  formation
+    20  member
+    21  bed
+    22  scientific_name
+    23  identification_qualifier
+    24  date_identified
+    25  verbatim_identification
+    26  verbatim_chronometric_age
+    27  earliest_chronometric_age
+    28  earliest_chronometric_age_reference_system
+    29  latest_chronometric_age
+    30  latest_chronometric_age_reference_system
+=====================================
+
+Part 2 -- Conditionals
+
+2.3
+1. $((ERRORS + 1)) takes the current value of errors (0 to start with)
+and then adds 1 to the value of errors for each error encountered. This
+is an arithmetic expression
+2. While 1 indicates false in linux, 0 indicates true. So, if the if
+statement has the correct result and goes to exit 0, then the code can
+proceed to the next part. But if the if statement is wrong and has the 
+exit 1 output, then the code will end.
+3. Commands and outputs:
+---nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week04$ ./validate_tsv.sh otb_fossils.tsv 7
+Validating: otb_fossils.tsv
+Expected columns: 7
+---
+FAIL: header has 30 columns (expected 7)
+INFO : 1242 data rows (plus 1 header)
+FAIL: 1244 row(s) have wrong column count
+      First 5 offending line numbers:
+ Line 1 has 30 columns
+ Line 2 has 30 columns
+ Line 3 has 30 columns
+ Line 4 has 30 columns
+ Line 5 has 30 columns
+---
+RESULT: FAILED (2 errors)
+4. Modefied Scrpit Section
+# Check for rows with wrong column count
+BAD_ROWS=$(awk -F'\t' -v cols="$EXPECTED_COLS" 'NF != cols {print NR}' "$FILEPATH" | wc -l | tr -d ' ')
+if [ "$BAD_ROWS" -eq 0 ]; then
+    echo "PASS: all rows have $EXPECTED_COLS columns"
+else
+    echo "FAIL: $BAD_ROWS row(s) have wrong column count"
+    awk -F'\t' -v cols="$EXPECTED_COLS" \
+        'NF != cols {print "      First offending row: file=" FILENAME ", line=" NR " (" NF " columns)"; exit}' \
+        "$FILEPATH"
+    echo "      First 5 offending line numbers:"
+    awk -F'\t' -v cols="$EXPECTED_COLS" 'NF != cols {print " Line", NR, "has", NF, "columns"}' \
+        "$FILEPATH" | head -5
+    ERRORS=$((ERRORS + 1))
+fi
+
+3.1
+Instead of being hardcoded the list in the script could be more dynamic
+to present the number of specimens in each formation in descending order.
+This method may be more informative and easier to read for users.
+
+3.2
+1. 2>/dev/null in the ls commands takes all stderr messages produced and
+redirects them to be stored in the /dev/null directory, and not in the
+variable TSV_COUNT. This is important here because we need TSV_COUNT to 
+hold a numeric value, not a string which stderr would produce. So having
+the redirect prevents strings from being stored where integers should be
+2. If I were to run this script and there are no TSV files, TSV_COUNT
+would have a value of 0 with the resulting stderr being stored in
+/dev/null. Then, in the following if statement, the script would print
+"No RSV files found in: $DIRPATH" and the script would end
+3. Commands and outputs:
+nicojaws@NicoLaptop:~/comp_paleo/part1_OS/week04$ ./batch_inspect.sh ~/comp_paleo/part1_OS/week03/
+Found 4 TSV file(s) in: /home/nicojaws/comp_paleo/part1_OS/week03/
+
+Filename                                Rows  Columns
+--------                                ----  -------
+eppe_fossils.tsv                       13716       31
+otb_fossils.tsv                         1242       30
+specimens_summary.tsv                   1243        3
+specimens_summary_short.tsv             1243        3
+
+3.3
+1. IFS=$'\t' read -r CATALOG_NUMR REST assigns the first column in a TSV
+file to CATALOT_NUM and every other column to REST while the loop is
+going. IFS is the internal field separator in the shell and controls
+what read treats as a delimiter. Since this file is tab delimited, it is
+set '\t'.
+2. [[ "$CATALOG_NUM" != "$PREFIX"* ]] checks if the catalog number does
+not start with the specified prefix. This line uses globbing with the *
+to say look for anything that starts with th prefix. Globbing requires
+the use of [[ ]], so [ ] would not have interpreted the * correctly
+3. tee -a "$LOG_FILE" takes the unexpected catalog numbers found by the
+while loop and appends then to the bad_catalog_numbers.log file. tee 
+differs from simple redirection in that tee will both display stdout and
+write it to a file.
+4. I looked up the lastpipe bash option. This option changes how the last
+ command in a pipeline runs. In this case, shopt -f lastpipe would be
+ added near the top of the script. This would then cause the while loop
+ to run in the same shell as the rest of the script, making BAD_COUNT
+ accessible if we wanted to display a count of the total number of lines
+ with unexpected catalog numbers.
+
+Part 5 Question Responses
+1. In python, variables are simply assigned using an = surrounded or not 
+surrounded by spaces. Variables in python can be called just by typing
+the variable name into a command. In bash, variables are assigned with an 
+= with no spaces around it. Variables in bash may also need ""s, ()s, or 
+a $ with then at assignment depending on if they are simple values or
+regular expressions. Additionally, in bash when you call a variable it 
+must be have $ as its prefix.  
+ 
+2. For loops in python are simpler in my opinion. While bash requires 
+;do before starting the loop, python can simply take for X in Y and then 
+run the loop
+
+3. In python, indentation is how blocks of code are defined. For example, 
+a for loop within a for loop would need to be indented to be nested in
+the loop and run properly. In bash, indentation is used more to make 
+long portions of scripts more readable. However, in bash we need to use
+\ at the end of a given line before indentation to tell bash that the
+indented line in continuous.
+
+4. for i, row in enumerate(reader) looks at every row individually, to 
+loop through and clean each row. There are 2 variables (i and row) 
+because they are needed by the enumerate(reader) portion to keep track of 
+which row the function is on. i indexes the row while row holds the data 
+in that row.
+
+5. This function captures arguments with the sys.argv tool. This took is 
+called from the sys module imported with import sys. The validation check 
+in line 43 expects 3 arguments because the sys.argv is communicating 
+between bash and python. So it needs the specific code to use 
+(fix_newlines.py), the input argument (input.csv), and the output argument 
+(output.tsv) in order to run.

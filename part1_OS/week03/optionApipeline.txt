@@ -1,0 +1,57 @@
+Pipeline to creare a specimen representation by formation 
+and epoch from the otb_fossils.tsv
+
+Option A:
+For each formation, what is the chronological range (earliest and latest epoch)?
+Produce a formatted summary showing formation name, specimen count, 
+and the range of geological epochs represented.
+
+Tools:
+tail
+awk
+cut
+grep
+
+Columns to call:
+earliest_epoch_or_lowest_series (15), latest_epoch_or_highest_series (16), formation (19), earliest_chronometric_age (27), latest_chronometric_age (29)
+
+Pipeline:
+tail -n +2 otb_fossils.tsv \
+  | grep -P '\t\S+\t' \
+  | cut -f 15,16,19,27,29 \
+  | awk -F'\t' '
+    BEGIN {
+      rank["Paleocene"]=1; rank["Eocene"]=2; rank["Oligocene"]=3
+      rank["Miocene"]=4; rank["Pliocene"]=5; rank["Pleistocene"]=6; rank["Holocene"]=7
+    }
+    $3 != "" {
+      formation = $3
+      earliest_epoch = $1
+      latest_epoch   = $2
+      earliest_age   = $4
+      latest_age     = $5
+
+      count[formation]++
+
+      if (earliest_epoch in rank && (!(formation in oldest_rank) || rank[earliest_epoch] < oldest_rank[formation])) {
+          oldest_rank[formation] = rank[earliest_epoch]; oldest_name[formation] = earliest_epoch
+      }
+      if (latest_epoch in rank && (!(formation in youngest_rank) || rank[latest_epoch] > youngest_rank[formation])) {
+          youngest_rank[formation] = rank[latest_epoch]; youngest_name[formation] = latest_epoch
+      }
+
+      if (earliest_age != "" && (!(formation in oldest_age) || earliest_age+0 > oldest_age[formation]))
+          oldest_age[formation] = earliest_age+0
+
+      if (latest_age != "" && (!(formation in youngest_age) || latest_age+0 < youngest_age[formation]))
+          youngest_age[formation] = latest_age+0
+    }
+    END {
+      for (f in count) {
+          oa = (f in oldest_age) ? oldest_age[f] : "NA"
+          ya = (f in youngest_age) ? youngest_age[f] : "NA"
+          printf "%-20s %-10d %-25s %-12s %-12s\n", f, count[f], oldest_name[f] " to " youngest_name[f], oa, ya
+      }
+    }' \
+  | sort -k2 -rn \
+  | (printf "%-20s %-10s %-25s %-12s %-12s\n" "Formation" "Count" "Epoch Range" "Oldest(Ma)" "Youngest(Ma)"; cat)
