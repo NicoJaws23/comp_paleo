@@ -1,0 +1,52 @@
+Week 5: Version Control with Git & GitHub
+
+Nico Jaworski
+
+Part 1.2
+1. Public SSH keys can be shared with other users and stored on remote 
+servers. Public SSH keys end with the .pub extension, indicating public 
+use. Private keys are stored on your local computer and do not have a 
+public extension. I uploaded a public SSH key to GitHub so that it can 
+be accessed by collaborators for future work.
+2. ~/.ssh/id_ed25519 was set to 600 because this is the private ssh key. 
+This key should only be readable and writable by me and no one else to 
+ensure the integrity of the key should something happen with the public 
+key.
+
+Part 2.3
+3. git add takes any changes you have made to a file and adds them to 
+a staging area before committing/pushing them to git. The stageing area 
+holds information on what will go in the next commit. So if I edited 3 
+file, I can add all 3 of them to the staging area and use the commit 
+command once instead of three separate times to push them to git.
+4. The 7-character string before each message is called the SHA-1 
+checksum of the commit. It is used as a unique identifer of the commit 
+and hold the metadata associated with each commit.
+
+Part 3.2
+5. git remote add origin allows you to add a new remote git repository. 
+Origin is the name or path to the remote repository we are adding.
+6. git fetch allows you to "fetch" new work that has been put on the 
+repo since you last "fetched" stuff from it. However, it does not merge 
+files. So if we edited README.md in git and used git fetch, it would 
+pull the file down but not merge it with out local one. git pull 
+fetches and merges files pulled from a remote repo.
+
+Part 4.4
+7. HEAD refers to the current working branch of the last commit.
+8. If I were testing different types of analysis on the same dataset 
+I think I would use a branch to ensure that no one analysis messes with 
+the other. For example, if I were trying 3 different ways to average GPS 
+points, then I think organizing each method into its own branch would be 
+useful.
+
+Part 5.1
+9. Git is really designed more for smaller files containing scripts 
+and documentation and not large datafiles. Large files can cause 
+repository bloat which slows the upload/download speed from the repo.
+10. .gitignore will recursivly ignore certain file classes, not showing 
+them as being untracked becuase we do not want to stage them for commits. 
+git rm --cached removed a single file from tracking, but you would have 
+to run the command over and over for future commits while using 
+.gitignore remembers to always not show designated file types in 
+tracking.
