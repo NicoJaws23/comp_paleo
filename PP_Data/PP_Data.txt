@@ -1,0 +1,47 @@
+Doing work with project data
+
+Using focal data collected during summer field work at the Tiputini Biodiversity
+Station from June-July 2026
+
+Data is organized into records for each behavioral sample, including the observer,
+date, time, focal animal ID, and behavior recorded.
+
+This workflow goes though the file I created (OS_AV_FS_FD_Test2.tsv)
+
+The column IDs are as follows:
+
+     1  "Obs Sample ID"
+     2  "Observer"
+     3  "Date"
+     4  "Avistaje ID"
+     5  "Taxon"
+     6  "Group"
+     7  "Focal Sample ID"
+     8  "Focal Animal"
+     9  "Focal Age-Sex Class"
+    10  "Time Start"
+    11  "Time"
+    12  "Behavior"
+    13  "Prox Data"
+
+The pipe here provides a count of the different behavioral states and events recorded.
+
+tail -n +2 OS_AV_FS_FD_Test2.tsv | cut -f 12 | tr -d '"\r' | tr '/' '\n' | grep -v '^$' | sort | uniq -c | sort -rn
+
+Multiple behaviors can be recorded in the same row. For example, MWI/X-CH/ indicates that the state behavior was moving with in tree and that the focal chirped when this was recorded. This pipe cuts the dataset down to the Behavior column, uses tr -d to delete " (left over from access export),then uses tr '/' '\n' to separate behaviors in the same row and place then in new lines, then ignores blank cells with grep -v '^$', then the pipe counts and sorts the occurrences of different behaviors in descending order
+
+This next pipe counts the number of focal samples that can be attributed to each observer represented in the dataset.
+
+tail -n +2 OS_AV_FS_FD_Test2.tsv | cut -f 2,7 | tr -d '"\r' | grep -v '^$' | sort -u | cut -f1 | sort | uniq -c | sort -rn
+
+Here, we cut down the file to the Observer and Focal Sample ID columns. Then we get rid of "" and blank cells, use sort -u to sort and remove duplicates (which exist for just about every FS because each FS contains multiple Behavior records or FDs), then using cut -f1 we pull out observer names and count the number of times each one appears.
+
+This pipe is similar to the previous, except it counts the number of Focal Samples taken for each Focal Animal
+
+tail -n +2 OS_AV_FS_FD_Test2.tsv | cut -f 7,8 | tr -d '"\r' | tr '/' '\n' | grep -v '^$' | sort -u | cut -f2 | sort | uniq -c | sort -rn
+
+
+In the same vain, this pipe shows how many groups are represented in the dataset
+
+tail -n +2 OS_AV_FS_FD_Test2.tsv | cut -f 4,6 | tr -d '"\r' | tr '/' '\n' | grep -v '^$' | sort -u | cut -f2 | sort | uniq -c | sort -rn
+ 
