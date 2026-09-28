@@ -7,6 +7,7 @@
 -- Write a SELECT query that returns the total row count of the fossils table.
 \echo Query 1: How many fossil specimens are in the database?
 SELECT COUNT(*) FROM fossils; -- SELECT used COUNT(*) to return the total number of fossils in the fossils table based on the number of rows.
+-- This query just gives a count of the total number of specimens in the dataset.
 
 -- ── Query 2 ───────────────────────────────────────────────────────────────────
 -- Question: Which specimens were discovered by Kamoya Kimeu?
@@ -18,6 +19,7 @@ SELECT catalog_number, preparations, year -- Specifies that catalog_number, prep
     FROM fossils -- Specifies we are looking in the fossils table.
     WHERE discovered_by LIKE '%Kimeu%' -- Searchers the discovered_by column for rows that contain Kimeu. The % wildcards allow for flexibility when searching, like if there is more than just Kimeu in the cell.
     ORDER BY year ASC; -- Orders results by year in ascending order.
+-- This query indicates the number of specimens discovered specifically by Kamoya Kimeu
 
 -- ── Query 3 ───────────────────────────────────────────────────────────────────
 -- Question: How many specimens come from each formation?
@@ -29,6 +31,7 @@ SELECT l.formation, COUNT(*) AS specimen_count -- Specifies that the name of the
     JOIN localities l ON f.locality_id = l.locality_id -- Give the localities table an alias of l before joinging the table by the locality_id foreign key.
     GROUP BY l.formation -- Groups COUNT(*) results by formation type
     ORDER BY specimen_count DESC; -- Orders results in descending order.
+-- This query indicates the distribution of specimens across formations.
 
 -- ── Query 4 ───────────────────────────────────────────────────────────────────
 -- Question: Which specimens are older than 3 million years?
@@ -43,6 +46,7 @@ SELECT f.catalog_number, t.scientific_name, f.earliest_chronometric_age, l.forma
     JOIN localities l on f.locality_id = l.locality_id -- Gives localities the alias of l and then joins the fossils/taxa joined table with localities by the locality_id foreign key.
     WHERE f.earliest_chronometric_age > 3.0 -- Filters to only return foossils older than 3 million years.
     ORDER BY f.earliest_chronometric_age DESC; -- Prints the reuslts in descending order based on earliest_chronometric_age.
+-- This query gives an idea of what species are seen prior to 3 million years ago.
 
 -- ── Query 5 ───────────────────────────────────────────────────────────────────
 -- Question: Which taxon has the most specimens, and what anatomical
@@ -70,3 +74,4 @@ SELECT f.preparations, COUNT(*) AS preparation_count -- Specifies the we are loo
     WHERE t.scientific_name = :'top_scientific_name' -- Filters joined table for where the scientific_name is equal to the top_scientific_name variable from the previous query.
     GROUP BY f.preparations -- Groups preparations of the top taxon based on the type of preparation (tooth, cranium, etc.)
     ORDER BY preparation_count DESC; -- Orders the couunts of each preparation type in descending order.
+-- This query both indicates the most abundant species found and also the types of features found with the specific taxon.
