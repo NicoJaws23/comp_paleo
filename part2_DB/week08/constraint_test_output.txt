@@ -1,0 +1,7 @@
+nicojaws@NicoLaptop:~/comp_paleo/part2_DB/week08$ sqlite3 :memory: ".read updated_ppgbd_schema.sql" ".read constraint_tests.sql"
+Runtime error near line 26: NOT NULL constraint failed: groups.group_id (19)
+Runtime error near line 37: CHECK constraint failed: length(trim(observer_sample_id)) = 7 (19)
+Runtime error near line 48: CHECK constraint failed: time_left_lost >= time_seen OR time_left_lost IS NULL (19)
+Runtime error near line 59: UNIQUE constraint failed: observers.observer_name (19)
+Runtime error near line 72: FOREIGN KEY constraint failed (19)
+1
