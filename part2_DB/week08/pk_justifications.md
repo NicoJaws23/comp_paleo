@@ -32,7 +32,7 @@ Key field(s): observer_sample_id (PK), observer_id (FK), observer_name (FK)
 Key type: Natural
 
 Justification:
-observer_sample_id is a natural primary key entered by indiviual observers each day. observer_sample_ids will not change and are unique to date the observer is in the field. This key is not a surrogate key becuase each observer sample id has a prefix of OS, so it is more than just an integer.
+observer_sample_id is a natural (OS12345) primary key entered by indiviual observers each day. The OS prefix indicates that this ID number is in reference to an observer sample, which is basically the work an observer did (i.e. Name of observer, date, equipment used). observer_sample_ids will not change and are unique to date the observer is in the field. This key is not a surrogate key becuase each observer sample id has a prefix of OS, so it is more than just an integer.
 
 ### Table: avistajes
 
@@ -40,7 +40,7 @@ Key field(s): avistaje_id (PK), observer_sample_id (FK), group_id (FK)
 Key type: Natural
 
 Justification:
-avistaje_id is a natural primary key entered by observers whenever they see a primate group, no matter the species. It is a unique value per each sighting, however there can be multiple sightings per day, so one observer sample id may have many avistaje ids associated with it. Similar to observer_sample_id, this is not a surrogate key becuase of each id has an AV prefix.
+avistaje_id is a natural (AV12345) primary key entered by observers whenever they see a primate group, no matter the species. The AV prefix indicates that this ID is for an avistaje, or sighting, of a primate species or group. It is a unique value per each sighting, however there can be multiple sightings per day, so one observer sample id may have many avistaje ids associated with it. Similar to observer_sample_id, this is not a surrogate key becuase of each id has an AV prefix.
 
 ### Table: focal sample
 
@@ -48,7 +48,7 @@ Key field(s): focal_sample_id (PK), avistaje_id (FK), primate_id (FK)
 Key type: Natural
 
 Justification:
-focal_sample_id is a natural primary key which observers manually enters on their data collection devices (iPods) whenever they are conducting a focal sample on an individual primate. This is a unique number for each individual focal sample and the data held withing, following a similar convention to observer_sample_id and avistaje_id. FS12345 is an example, this record would be associated with a particular avistaje_id, representing the time the whole group was followed. So one avistaje may have many focal samples within it. The number assigned to a focal sample will not change, but the data within can. So if an observer accidently marks an adult male as an adult female, the age-sex id can be changed without changing the entire focal sample.
+focal_sample_id is a natural (FS12345) primary key which observers manually enters on their data collection devices (iPods) whenever they are conducting a focal sample on an individual primate. The FS prefix indicates that this is an ID for a behavioral data collection (focal sample) period. This is a unique number for each individual focal sample and the data held withing, following a similar convention to observer_sample_id and avistaje_id. FS12345 is an example, this record would be associated with a particular avistaje_id, representing the time the whole group was followed. So one avistaje may have many focal samples within it. The number assigned to a focal sample will not change, but the data within can. So if an observer accidently marks an adult male as an adult female, the age-sex id can be changed without changing the entire focal sample.
 
 ### Table: focal data
 
