@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Add a focal sample</h2>
+    {% if error %}<p class="flash error">{{ error }}</p>{% endif %}
+    <form method="post">
+        <label for="fs_id">Focal sample ID <span class="req">*</span></label>
+        <input type="text" id="fs_id" name="focal_sample_id" required
+               pattern="FS[0-9]{5}" title="FS followed by 5 digits" placeholder="FS60500">
+
+        <label for="fs_av">Avistaje <span class="req">*</span></label>
+        <select id="fs_av" name="avistaje_id" required>
+            <option value="">Select an avistaje</option>
+            {% for a in avistajes %}
+            <option value="{{ a.avistaje_id }}">
+                {{ a.avistaje_id }} - {{ a.taxon or '' }} {{ a.group_name or '' }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="fs_animal">Focal animal</label>
+        <input type="text" id="fs_animal" name="focal_animal">
+
+        <label for="fs_class">Age-sex class</label>
+        <input type="text" id="fs_class" name="age_sex_class" placeholder="AF">
+
+        <label for="fs_start">Time start</label>
+        <input type="time" id="fs_start" name="time_start" step="1">
+
+        <label for="fs_end">Time end</label>
+        <input type="time" id="fs_end" name="time_end" step="1">
+
+        <label for="fs_comments">Comments</label>
+        <textarea id="fs_comments" name="comments" rows="4"></textarea>
+
+        <button type="submit">Add focal sample</button>
+        <a href="{{ url_for('list_focal_samples') }}">Cancel</a>
+    </form>
+{% endblock %}

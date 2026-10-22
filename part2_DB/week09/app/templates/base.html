@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Proyecto Primates Database{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('list_observer_samples') }}">Observer Samples</a></li>
+            <li><a href="{{ url_for('list_avistajes') }}">Avistajes</a></li>
+            <li><a href="{{ url_for('list_focal_samples') }}">Focal Samples</a></li>
+            <li><a href="{{ url_for('list_full') }}">Full Dataset</a></li>
+        </ul>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

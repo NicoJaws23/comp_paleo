@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Proyecto Primates Geographic and Behavioral Database</title>
+    <link rel="stylesheet" href="topic3_style.css">
+</head>
+<body>
+    <h1>Welcome</h1>
+    <p>The Proyecto Primates Record of Neotropical Primate Behavior at the Tiputini Biodiversity Station Records</p>
+    <h2>Database Components</h2>
+    <p>The database is comprised of 3 essential parts</p>
+    <p>Observer Samples: Each day an observer creates an observer sample which serves as the parent record for all data collected that day</p>
+    <p>Avistajes: Any time an observer sees a primate species, they record an avistaje record which indicates the species seen, the group (if known), the behavior when seen, and the time of the sighting</p>
+    <p>Focal Samples: Any time an observer collects focal data on a single individual, they store the data in a focal sample</p>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#observer-samples">Observer Samples</a></li>
+            <li><a href="#avistajes">Avistajes</a></li>
+            <li><a href="#focal-samples">Focal Samples</a></li>
+            <li><a href="#full-table">Full Dataset</a></li>
+        </ul>
+    </nav>
+    <section id="observer-samples">
+    <h3>Observer Samples</h3>
+        <h4>Add an observer sample</h4>
+            <form action="#" method="post">
+                <label for="os_id">Obs sample ID <span class="req">*</span></label>
+                <input type="text" id="os_id" name="obs_sample_id" required
+                    pattern="OS[0-9]{5}" title="OS followed by 5 digits" placeholder="OS71702">
+
+                <label for="os_observer">Observer <span class="req">*</span></label>
+                <input type="text" id="os_observer" name="observer" required placeholder="Connor Munro">
+
+                <label for="os_date">Date <span class="req">*</span></label>
+                <input type="date" id="os_date" name="obs_date" required>
+
+                <label for="os_gps">GPS used</label>
+                <input type="text" id="os_gps" name="gps_used" placeholder="GPS PP10">
+
+                <label for="os_comments">Comments</label>
+                <textarea id="os_comments" name="comments" rows="4"></textarea>
+
+                <button type="submit">Add observer sample</button>
+            </form>
+    <div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Obs Sample ID</th><th>Observer</th><th>Date</th>
+                <th>Time Record Created</th><th>Comments</th><th>GPS Used</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>OS71702</td><td>Connor Munro</td><td>07-Jun-26</td><td>8:07:38 AM</td>
+                <td>Looked for Pepe with telemetry, located the group but not the individual, practiced observing for focal samples AF, also familiarized self with how to collect data properly.</td>
+                <td>GPS PP10</td>
+            </tr>
+            <tr>
+                <td>OS71652</td><td>Emma Tibbitts</td><td>07-Jun-26</td><td>8:08:52 AM</td>
+                <td></td><td>GPS MU03</td>
+            </tr>
+            <tr>
+                <td>OS71653</td><td>Emma Tibbitts</td><td>08-Jun-26</td><td>6:46:01 AM</td>
+                <td></td><td>GPS MU03</td>
+            </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section id="avistajes">
+        <h3>Avistajes</h3>
+            <h4>Add an avistaje</h4>
+                <form action="#" method="post">
+                    <label for="av_id">Avistaje ID <span class="req">*</span></label>
+                    <input type="text" id="av_id" name="avistaje_id" required
+                        pattern="AV[0-9]{5}" title="AV followed by 5 digits" placeholder="AV09304">
+
+                    <label for="av_os">Obs sample ID <span class="req">*</span></label>
+                    <input type="text" id="av_os" name="obs_sample_id" required
+                        pattern="OS[0-9]{5}" title="OS followed by 5 digits" placeholder="OS71702">
+
+                    <label for="av_taxon">Taxon</label>
+                    <select id="av_taxon" name="taxon">
+                        <option value="">Select a taxon</option>
+                        <option>Lagothrix</option><option>Ateles</option><option>Alouatta</option>
+                        <option>Cebus</option><option>Cebuella</option><option>Saguinus</option>
+                    </select>
+
+                    <label for="av_group">Group</label>
+                    <input type="text" id="av_group" name="group_name" placeholder="Lagothrix P">
+
+                    <label for="av_time_enc">Time encountered <span class="req">*</span></label>
+                    <input type="time" id="av_time_enc" name="time_enc" step="1" required>
+
+                    <label for="av_beh">Behavior when encountered</label>
+                    <select id="av_beh" name="beh_when_enc">
+                        <option value="">Select a behavior</option>
+                        <option>moving</option><option>foraging</option><option>socializing</option>
+                        <option>resting</option><option>vocalizing</option>
+                        <option>fuera de vista</option><option>other</option>
+                    </select>
+
+                    <label class="check">Follow data included<input type="checkbox" name="follow_data_included"></label>
+
+                    <label for="av_time_left">Time left/lost</label>
+                    <input type="time" id="av_time_left" name="time_left_lost" step="1">
+
+                    <label for="av_how_ended">How ended</label>
+                    <select id="av_how_ended" name="how_ended">
+                        <option value="">Select one</option>
+                        <option>left animals</option><option>lost animals</option>
+                    </select>
+
+                    <label for="av_notes">Avistaje notes</label>
+                    <textarea id="av_notes" name="avistaje_notes" rows="4"></textarea>
+
+                    <label class="check">Vocal contact<input type="checkbox" name="voc_contact"></label>
+
+                    <label for="av_voc_dist">Vocal distance</label>
+                    <select id="av_voc_dist" name="voc_distance">
+                        <option value="">Select a distance</option>
+                        <option>Close</option><option>Medium</option><option>Far</option><option>Very Far</option>
+                    </select>
+
+                    <label for="av_others">Other observers present</label>
+                    <input type="text" id="av_others" name="other_observers" placeholder="Name/Name/Name">
+
+                    <button type="submit">Add avistaje</button>
+                </form>
+        <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Avistaje ID</th><th>Obs Sample ID</th><th>Taxon</th><th>Group</th>
+                    <th>Time Enc</th><th>Beh When Enc</th><th>Follow Data Included</th>
+                    <th>Time Left/Lost</th><th>How Ended</th><th>Avistaje Notes</th>
+                    <th>Voc Contact</th><th>Voc Distance</th><th>Other Observers Present</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AV09304</td><td>OS71702</td><td>Lagothrix</td><td>Lagothrix P</td>
+                    <td>9:22:24 AM</td><td>Foraging</td><td>TRUE</td><td>11:06:03 AM</td><td>Left Animals</td>
+                    <td>Found group 3-6 AF -3, eating spondius
+    JM2 and
+    SAM</td>
+                    <td>FALSE</td><td>Medium</td>
+                    <td>Kelsey Ellis/Addy Shultz/Emma Tibbitts/Kael Fulkerson/</td>
+                </tr>
+                <tr>
+                    <td>AV09204</td><td>OS71652</td><td>Lagothrix</td><td>Lagothrix G</td>
+                    <td>2:45:27 PM</td><td>Foraging</td><td>TRUE</td><td>6:00:00 PM</td><td>Left Animals</td>
+                    <td>Feeding on mairacuae
+    1J
+    AM thrusting on tree
+    Female with J1
+    Gota and adult male, 4AF, I1, JF1, JM2</td>
+                    <td>FALSE</td><td>Close</td>
+                    <td>Addy Shultz/ Kelsey Ellis/Kael Fulkerson/Connor Munro/</td>
+                </tr>
+                <tr>
+                    <td>AV09207</td><td>OS71653</td><td>Lagothrix</td><td>Lagothrix G</td>
+                    <td>6:46:23 AM</td><td>Resting</td><td>TRUE</td><td>1:52:06 PM</td><td>Left Animals</td>
+                    <td>Heard individual peeing.</td>
+                    <td>FALSE</td><td>Close</td>
+                    <td>Addy Shultz/ Kelsey Ellis/Kael Fulkerson/Connor Munro/</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </section>
+
+    <section id="focal-samples">
+        <h3>Focal Samples</h3>
+            <h4>Add a focal sample</h4>
+                <form action="#" method="post">
+                    <label for="fs_id">Focal sample ID <span class="req">*</span></label>
+                    <input type="text" id="fs_id" name="focal_sample_id" required
+                        pattern="FS[0-9]{5}" title="FS followed by 5 digits" placeholder="FS60500">
+
+                    <label for="fs_av">Avistaje ID <span class="req">*</span></label>
+                    <input type="text" id="fs_av" name="avistaje_id" required
+                        pattern="AV[0-9]{5}" title="AV followed by 5 digits" placeholder="AV09304">
+
+                    <label for="fs_animal">Focal animal</label>
+                    <input type="text" id="fs_animal" name="focal_animal">
+
+                    <label for="fs_class">Age-sex class</label>
+                    <input type="text" id="fs_class" name="age_sex_class" placeholder="AF">
+
+                    <label for="fs_start">Time start</label>
+                    <input type="time" id="fs_start" name="time_start" step="1">
+
+                    <label for="fs_end">Time end</label>
+                    <input type="time" id="fs_end" name="time_end" step="1">
+
+                    <label for="fs_comments">Comments</label>
+                    <textarea id="fs_comments" name="comments" rows="4"></textarea>
+
+                    <button type="submit">Add focal sample</button>
+                </form>
+        <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Focal Sample ID</th><th>Avistaje ID</th><th>Focal Animal</th>
+                    <th>Focal Age-Sex Class</th><th>Time Start</th><th>Time End</th><th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>FS60500</td><td>AV09304</td><td>AF/</td><td></td><td>10:00:00 AM</td><td>11:00:00 AM</td><td></td></tr>
+                <tr><td>FS60252</td><td>AV09204</td><td>AM/</td><td></td><td>2:59:36 PM</td><td>3:15:00 PM</td><td>AM</td></tr>
+                <tr><td>FS60253</td><td>AV09204</td><td>ADULT/</td><td></td><td>3:26:07 PM</td><td>3:31:00 PM</td><td></td></tr>
+                <tr><td>FS60250</td><td>AV09207</td><td>AF/</td><td></td><td>6:58:10 AM</td><td>7:50:00 AM</td><td>Unknown AF</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </section>
+
+    <section id = "full-table">
+      <h3>Full Dataset</h3>
+      <div class="table-wrap"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>Obs Sample ID</th><th>Observer</th><th>Date</th><th>Time Record Created</th>
+            <th>observer samples.Comments</th><th>GPS Used</th><th>Avistaje ID</th><th>Taxon</th>
+            <th>Group</th><th>Time Enc</th><th>Beh When Enc</th><th>Follow Data Included</th>
+            <th>Time Left/Lost</th><th>How Ended</th><th>Avistaje Notes</th><th>Voc Contact</th>
+            <th>Voc Distance</th><th>Other Observer Present</th><th>Focal Sample ID</th>
+            <th>Focal Animal</th><th>Focal Age-Sex Class</th><th>Time Start</th><th>Time End</th>
+            <th>focal samples.Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OS71702</td><td>Connor Munro</td><td>07-Jun-26</td><td>8:07:38 AM</td>
+            <td>Looked for Pepe with telemetry, located the group but not the individual, practiced observing for focal samples AF, also familiarized self with how to collect data properly.</td>
+            <td>GPS PP10</td><td>AV09304</td><td>Lagothrix</td><td>Lagothrix P</td><td>9:22:24 AM</td>
+            <td>Foraging</td><td>TRUE</td><td>11:06:03 AM</td><td>Left Animals</td>
+            <td>Found group 3-6 AF -3, eating spondius
+      JM2 and
+      SAM</td>
+            <td>FALSE</td><td>Medium</td>
+            <td>Kelsey Ellis/Addy Shultz/Emma Tibbitts/Kael Fulkerson/</td>
+            <td>FS60500</td><td>AF/</td><td></td><td>10:00:00 AM</td><td>11:00:00 AM</td><td></td>
+          </tr>
+          <tr>
+            <td>OS71652</td><td>Emma Tibbitts</td><td>07-Jun-26</td><td>8:08:52 AM</td>
+            <td></td><td>GPS MU03</td><td>AV09204</td><td>Lagothrix</td><td>Lagothrix G</td><td>2:45:27 PM</td>
+            <td>Foraging</td><td>TRUE</td><td>6:00:00 PM</td><td>Left Animals</td>
+            <td>Feeding on mairacuae
+      1J
+      AM thrusting on tree
+      Female with J1
+      Gota and adult male, 4AF, I1, JF1, JM2</td>
+            <td>FALSE</td><td>Close</td>
+            <td>Addy Shultz/ Kelsey Ellis/Kael Fulkerson/Connor Munro/</td>
+            <td>FS60252</td><td>AM/</td><td></td><td>2:59:36 PM</td><td>3:15:00 PM</td><td>AM</td>
+          </tr>
+          <tr>
+            <td>OS71652</td><td>Emma Tibbitts</td><td>07-Jun-26</td><td>8:08:52 AM</td>
+            <td></td><td>GPS MU03</td><td>AV09204</td><td>Lagothrix</td><td>Lagothrix G</td><td>2:45:27 PM</td>
+            <td>Foraging</td><td>TRUE</td><td>6:00:00 PM</td><td>Left Animals</td>
+            <td>Feeding on mairacuae
+      1J
+      AM thrusting on tree
+      Female with J1
+      Gota and adult male, 4AF, I1, JF1, JM2</td>
+            <td>FALSE</td><td>Close</td>
+            <td>Addy Shultz/ Kelsey Ellis/Kael Fulkerson/Connor Munro/</td>
+            <td>FS60253</td><td>ADULT/</td><td></td><td>3:26:07 PM</td><td>3:31:00 PM</td><td></td>
+          </tr>
+          <tr>
+            <td>OS71653</td><td>Emma Tibbitts</td><td>08-Jun-26</td><td>6:46:01 AM</td>
+            <td></td><td>GPS MU03</td><td>AV09207</td><td>Lagothrix</td><td>Lagothrix G</td><td>6:46:23 AM</td>
+            <td>Resting</td><td>TRUE</td><td>1:52:06 PM</td><td>Left Animals</td>
+            <td>Heard individual peeing.</td>
+            <td>FALSE</td><td>Close</td>
+            <td>Addy Shultz/ Kelsey Ellis/Kael Fulkerson/Connor Munro/</td>
+            <td>FS60250</td><td>AF/</td><td></td><td>6:58:10 AM</td><td>7:50:00 AM</td><td>Unknown AF</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </section>
+</body>
+</html>

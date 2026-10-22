@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Welcome</h1>
+    <p>The Proyecto Primates Record of Neotropical Primate Behavior at the Tiputini Biodiversity Station Records</p>
+
+    <h2>Database Components</h2>
+    <p>The database is comprised of 3 essential parts</p>
+    <p><a href="{{ url_for('list_observer_samples') }}">Observer Samples</a> ({{ n_observer_samples }}): Each day an observer creates an observer sample which serves as the parent record for all data collected that day</p>
+    <p><a href="{{ url_for('list_avistajes') }}">Avistajes</a> ({{ n_avistajes }}): Any time an observer sees a primate species, they record an avistaje record which indicates the species seen, the group (if known), the behavior when seen, and the time of the sighting</p>
+    <p><a href="{{ url_for('list_focal_samples') }}">Focal Samples</a> ({{ n_focal_samples }}): Any time an observer collects focal data on a single individual, they store the data in a focal sample</p>
+{% endblock %}

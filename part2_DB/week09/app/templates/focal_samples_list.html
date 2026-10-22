@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Focal Samples</h2>
+    <a class="button" href="{{ url_for('new_focal_sample') }}">Add a focal sample</a>
+    <div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Focal Sample ID</th><th>Avistaje ID</th><th>Focal Animal</th>
+                <th>Focal Age-Sex Class</th><th>Time Start</th><th>Time End</th><th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rows %}
+            <tr>
+                <td>{{ r.focal_sample_id }}</td><td>{{ r.avistaje_id }}</td>
+                <td>{{ r.focal_animal|cell }}</td><td>{{ r.focal_age_sex_class|cell }}</td>
+                <td>{{ r.time_start|cell }}</td><td>{{ r.time_end|cell }}</td>
+                <td>{{ r.comments|cell }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7">No focal samples yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

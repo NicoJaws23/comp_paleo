@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Add an observer sample</h2>
+    {% if error %}<p class="flash error">{{ error }}</p>{% endif %}
+    <form method="post">
+        <label for="os_id">Obs sample ID <span class="req">*</span></label>
+        <input type="text" id="os_id" name="obs_sample_id" required
+               pattern="OS[0-9]{5}" title="OS followed by 5 digits" placeholder="OS71702">
+
+        <label for="os_observer">Observer <span class="req">*</span></label>
+        <input type="text" id="os_observer" name="observer" required placeholder="Connor Munro">
+
+        <label for="os_date">Date <span class="req">*</span></label>
+        <input type="date" id="os_date" name="obs_date" required>
+
+        <label for="os_gps">GPS used</label>
+        <input type="text" id="os_gps" name="gps_used" placeholder="GPS PP10">
+
+        <label for="os_comments">Comments</label>
+        <textarea id="os_comments" name="comments" rows="4"></textarea>
+
+        <button type="submit">Add observer sample</button>
+        <a href="{{ url_for('list_observer_samples') }}">Cancel</a>
+    </form>
+{% endblock %}

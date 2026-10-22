@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Add an avistaje</h2>
+    {% if error %}<p class="flash error">{{ error }}</p>{% endif %}
+    <form method="post">
+        <label for="av_id">Avistaje ID <span class="req">*</span></label>
+        <input type="text" id="av_id" name="avistaje_id" required
+               pattern="AV[0-9]{5}" title="AV followed by 5 digits" placeholder="AV09304">
+
+        <label for="av_os">Observer sample <span class="req">*</span></label>
+        <select id="av_os" name="obs_sample_id" required>
+            <option value="">Select an observer sample</option>
+            {% for o in observer_samples %}
+            <option value="{{ o.obs_sample_id }}">
+                {{ o.obs_sample_id }} - {{ o.observer or '' }} ({{ o.obs_date|cell }})
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="av_taxon">Taxon</label>
+        <select id="av_taxon" name="taxon">
+            <option value="">Select a taxon</option>
+            <option>Lagothrix</option><option>Ateles</option><option>Alouatta</option>
+            <option>Cebus</option><option>Cebuella</option><option>Saguinus</option>
+        </select>
+
+        <label for="av_group">Group</label>
+        <input type="text" id="av_group" name="group_name" placeholder="Lagothrix P">
+
+        <label for="av_time_enc">Time encountered <span class="req">*</span></label>
+        <input type="time" id="av_time_enc" name="time_enc" step="1" required>
+
+        <label for="av_beh">Behavior when encountered</label>
+        <select id="av_beh" name="beh_when_enc">
+            <option value="">Select a behavior</option>
+            <option>moving</option><option>foraging</option><option>socializing</option>
+            <option>resting</option><option>vocalizing</option>
+            <option>fuera de vista</option><option>other</option>
+        </select>
+
+        <label class="check">Follow data included<input type="checkbox" name="follow_data_included"></label>
+
+        <label for="av_time_left">Time left/lost</label>
+        <input type="time" id="av_time_left" name="time_left_lost" step="1">
+
+        <label for="av_how_ended">How ended</label>
+        <select id="av_how_ended" name="how_ended">
+            <option value="">Select one</option>
+            <option>left animals</option><option>lost animals</option>
+        </select>
+
+        <label for="av_notes">Avistaje notes</label>
+        <textarea id="av_notes" name="avistaje_notes" rows="4"></textarea>
+
+        <label class="check">Vocal contact<input type="checkbox" name="voc_contact"></label>
+
+        <label for="av_voc_dist">Vocal distance</label>
+        <select id="av_voc_dist" name="voc_distance">
+            <option value="">Select a distance</option>
+            <option>Close</option><option>Medium</option><option>Far</option><option>Very Far</option>
+        </select>
+
+        <label for="av_others">Other observers present</label>
+        <input type="text" id="av_others" name="other_observers" placeholder="Name/Name/Name">
+
+        <button type="submit">Add avistaje</button>
+        <a href="{{ url_for('list_avistajes') }}">Cancel</a>
+    </form>
+{% endblock %}

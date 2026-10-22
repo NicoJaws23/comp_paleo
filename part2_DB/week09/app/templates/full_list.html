@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Full Dataset</h2>
+    <p>Showing the 500 most recent rows.</p>
+    <div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Obs Sample ID</th><th>Observer</th><th>Date</th><th>Time Record Created</th>
+                <th>observer samples.Comments</th><th>GPS Used</th><th>Avistaje ID</th><th>Taxon</th>
+                <th>Group</th><th>Time Enc</th><th>Beh When Enc</th><th>Follow Data Included</th>
+                <th>Time Left/Lost</th><th>How Ended</th><th>Avistaje Notes</th><th>Voc Contact</th>
+                <th>Voc Distance</th><th>Other Observer Present</th><th>Focal Sample ID</th>
+                <th>Focal Animal</th><th>Focal Age-Sex Class</th><th>Time Start</th><th>Time End</th>
+                <th>focal samples.Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rows %}
+            <tr>
+                <td>{{ r.obs_sample_id }}</td><td>{{ r.observer|cell }}</td><td>{{ r.obs_date|cell }}</td>
+                <td>{{ r.time_record_created|cell }}</td><td>{{ r.os_comments|cell }}</td>
+                <td>{{ r.gps_used|cell }}</td><td>{{ r.avistaje_id|cell }}</td><td>{{ r.taxon|cell }}</td>
+                <td>{{ r.group_name|cell }}</td><td>{{ r.time_enc|cell }}</td><td>{{ r.beh_when_enc|cell }}</td>
+                <td>{{ r.follow_data_included|cell }}</td><td>{{ r.time_left_lost|cell }}</td>
+                <td>{{ r.how_ended|cell }}</td><td>{{ r.avistaje_notes|cell }}</td>
+                <td>{{ r.voc_contact|cell }}</td><td>{{ r.voc_distance|cell }}</td>
+                <td>{{ r.other_observers_present|cell }}</td><td>{{ r.focal_sample_id|cell }}</td>
+                <td>{{ r.focal_animal|cell }}</td><td>{{ r.focal_age_sex_class|cell }}</td>
+                <td>{{ r.time_start|cell }}</td><td>{{ r.time_end|cell }}</td><td>{{ r.fs_comments|cell }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="24">No records yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

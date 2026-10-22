@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Avistajes</h2>
+    <a class="button" href="{{ url_for('new_avistaje') }}">Add an avistaje</a>
+    <div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Avistaje ID</th><th>Obs Sample ID</th><th>Taxon</th><th>Group</th>
+                <th>Time Enc</th><th>Beh When Enc</th><th>Follow Data Included</th>
+                <th>Time Left/Lost</th><th>How Ended</th><th>Avistaje Notes</th>
+                <th>Voc Contact</th><th>Voc Distance</th><th>Other Observers Present</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rows %}
+            <tr>
+                <td>{{ r.avistaje_id }}</td><td>{{ r.obs_sample_id }}</td>
+                <td>{{ r.taxon|cell }}</td><td>{{ r.group_name|cell }}</td>
+                <td>{{ r.time_enc|cell }}</td><td>{{ r.beh_when_enc|cell }}</td>
+                <td>{{ r.follow_data_included|cell }}</td><td>{{ r.time_left_lost|cell }}</td>
+                <td>{{ r.how_ended|cell }}</td><td>{{ r.avistaje_notes|cell }}</td>
+                <td>{{ r.voc_contact|cell }}</td><td>{{ r.voc_distance|cell }}</td>
+                <td>{{ r.other_observers_present|cell }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="13">No avistajes yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}
