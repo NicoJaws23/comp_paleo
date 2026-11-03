@@ -107,7 +107,7 @@ compound = agesKa[(agesKa <= 2310) & (agesKa > 1420)]
 print(compound)
 
 # %% [markdown]
-# Why NumPy operations are faster than Python loops
+# ## Why NumPy operations are faster than Python loops
 # NumPy is specifically designed to work with large arrays of data. It stores data independetly of built-in python
 # objects, allowing its algorithms to work indepenedtly of Python's overhead. The C-based alorithms which make up NumPy avoid
 # overhead present in regular Python for loops. If the dataset is smaller or there are multiple steps involved, then I would
@@ -166,7 +166,7 @@ taxonGroups = specimensDF.groupby('taxon').agg(
 print(taxonGroups)
 
 # %% [markdown]
-# Summary Interpretation
+# ## Summary Interpretation
 # My summary indicates that Homo are the most abundant specimens in my dataset. It also indicates a potential error. 
 # Either the dating method was conducted wrong or someone entered data incoreectly because the oldest Homo specimen 
 # should not be older than Australopithecus or Paranthropus
