@@ -192,7 +192,7 @@ otb_col2 = (ggplot(counts, aes(x='subregion', y='n_specimens', fill='taxon_name'
       + theme(legend_position='bottom',
               figure_size=(8, 5))
 )
-otb_col2.save('part3_AL/week12/otb_counts.png', dpi=150)
+otb_col2.save('part3_AL/week12/otb_counts2.png', dpi=150)
 # %% [markdown]
 # # I would want to use stacked bars to show the total number of specimens per site while also showing the proportion of each taxa per locality. I would want to use dodged bars to show how many of a distinct group are present at each site, not just the total number of specimens
 
